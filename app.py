@@ -21,6 +21,7 @@ st.markdown("---")
 # ---------------- TIMELINE ----------------
 st.subheader("🚀 Execution Roadmap: From Lab to Deep Space")
 
+# Update timeline with separated Y positions for readability
 timeline_data = {
     "Year": ["2025", "2027", "2030", "2035+"],
     "Phase": ["Organoid Testing", "Animal Trials", "Human Application", "Mars Deployment"],
@@ -29,7 +30,8 @@ timeline_data = {
         "Full NeuroGuard modules applied in mice & primates with real-time brain monitoring.",
         "Terminal-stage GBM patients treated under enhanced ethical protocols.",
         "Autonomous neural repair in microgravity during space missions."
-    ]
+    ],
+    "Y_Position": [1.0, 0.75, 1.0, 0.75]  # staggered positions for clarity
 }
 
 df = pd.DataFrame(timeline_data)
@@ -39,20 +41,21 @@ fig_timeline = go.Figure()
 for i, row in df.iterrows():
     fig_timeline.add_trace(go.Scatter(
         x=[row["Year"]],
-        y=[1],
+        y=[row["Y_Position"]],
         mode="markers+text",
-        marker=dict(size=20, color="#1f77b4"),
-        text=[f"<b>{row['Phase']}</b><br><i>{row['Details']}</i>"],
-        textposition="bottom center"
+        marker=dict(size=24, color="#1f77b4"),
+        text=[f"<b>{row['Phase']}</b><br><span style='font-size:12px'><i>{row['Details']}</i></span>"],
+        textposition="bottom center",
+        hoverinfo="text"
     ))
 
 fig_timeline.update_layout(
     title="Strategic Milestones Toward Implementation",
     template="plotly_dark",
-    xaxis=dict(title="Milestone Year", tickvals=df["Year"]),
+    xaxis=dict(title="Milestone Year", tickvals=df["Year"], tickfont=dict(size=14)),
     yaxis=dict(visible=False),
     showlegend=False,
-    height=500
+    height=550
 )
 
 st.plotly_chart(fig_timeline, use_container_width=True)
